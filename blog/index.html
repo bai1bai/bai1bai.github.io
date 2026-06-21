@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog - bai1bai</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+            color: #fff;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+        h1 {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, #667eea, #a78bfa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .back {
+            display: inline-block;
+            margin-bottom: 2rem;
+            color: rgba(255,255,255,0.5);
+            text-decoration: none;
+            font-size: 0.85rem;
+        }
+        .back:hover { color: #a78bfa; }
+        .post {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 12px;
+            padding: 1.2rem 1.5rem;
+            margin-bottom: 1rem;
+            transition: all 0.3s;
+        }
+        .post:hover {
+            background: rgba(255,255,255,0.08);
+            transform: translateY(-2px);
+        }
+        .post h2 { font-size: 1.05rem; margin-bottom: 0.3rem; }
+        .post h2 a {
+            color: #fff;
+            text-decoration: none;
+        }
+        .post h2 a:hover { color: #a78bfa; }
+        .post .meta {
+            font-size: 0.8rem;
+            color: rgba(255,255,255,0.4);
+        }
+        footer {
+            text-align: center;
+            padding: 2rem;
+            font-size: 0.8rem;
+            color: rgba(255,255,255,0.2);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a class="back" href="../">← 返回主页</a>
+        <h1>Blog</h1>
+        <p style="color:rgba(255,255,255,0.5); margin-bottom:2rem; font-size:0.9rem;">记录与分享</p>
+
+        <div class="post">
+            <h2><a href="#">第一篇文章</a></h2>
+            <div class="meta">2026-06-21</div>
+        </div>
+
+        <div class="post">
+            <h2><a href="#">第二篇文章</a></h2>
+            <div class="meta">2026-06-20</div>
+        </div>
+
+        <div class="post">
+            <h2><a href="#">第三篇文章</a></h2>
+            <div class="meta">2026-06-19</div>
+        </div>
+    </div>
+    <footer>© 2026 bai1bai</footer>
+</body>
+</html>
