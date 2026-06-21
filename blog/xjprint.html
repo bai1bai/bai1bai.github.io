@@ -1,0 +1,320 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Bai1Bai</title>
+    <style media="print">
+        /*<%--不需要打印的对象要用上“Noprint”样式。--%>*/
+        .Noprint {
+            DISPLAY: none;
+        }
+
+        /*需要换页处理的对象要用上“PageNext”样式。*/
+        .PageNext {
+            PAGE-BREAK-AFTER: always
+        }
+    </style>
+    <style>
+        /*.ttd {*/
+        /*    !* 文本颠倒 *!*/
+        /*    filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=2); !* IE6,IE7 *!*/
+        /*    ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=2)"; !* IE8 *!*/
+        /*    -moz-transform: rotate(-180deg); !* 火狐3.5+ *!*/
+        /*    -o-transform: rotate(-180deg); !* Opera 10.5 *!*/
+        /*    -webkit-transform: rotate(-180deg); !* Safari 3.1+, Chrome *!*/
+        /*    position: absolute;*/
+        /*}*/
+
+        #divForm {
+            text-align: center; /*(让div中的内容居中)*/
+        }
+
+        td {
+            width: 300px;
+            height: 400px;
+            padding: 2px 2px 2px 2px; /* 等同下方设置四个内边距 上 右 下 左*/
+        }
+
+        /*
+        鼠标停留表格，背景色变
+         */
+        tr:hover {
+            background-color: #f2f2f2
+        }
+    </style>
+    <!--<link href="t1.css" rel="stylesheet" type="text/css">-->
+    <script>function abc() {
+        var inputs = document.getElementById("inputs");
+        removeElement(inputs);
+    }
+
+    /* 定义16K 拼版走页规律 整手 */
+    var array16 = new Array(5, 12, 9, 8, 4, 13, 16, 1, 7, 10, 11, 6, 2, 15, 14, 3);//正常派页规则,正面，反面
+    var array16k2 = new Array(1, 8, 5, 4, 4, 5, 8, 1, 3, 6, 7, 2, 2, 7, 6, 3);//松二规则
+    var arrayk4 = new Array(1, 4, 3, 2, 2, 3, 4, 1, 1, 4, 3, 2, 2, 3, 4, 1);//松四规则
+
+
+    function removeElement(mynode) {
+        while (mynode.hasChildNodes()) //每次动态添加应该更新内容，当div下还存在子节点时 循环继续
+        {
+            mynode.removeChild(mynode.firstChild);
+        }
+    }
+
+    /* 自定义前页，手工输入内容，几个P，例如扉页版权等 */
+    function addtextarea(x) {
+        if (x == "") {
+            count = 0;
+        } else {
+            count = x;
+        }
+        var inputs = document.getElementById("inputs");
+        removeElement(inputs);
+        for (var i = 0; i < count; i++) {
+            var username = document.createElement("input");
+            username.type = "text";
+            username.name = "name_" + i;
+            username.id = (i + 1);//给这个input赋予id值
+            username.value = "动态创建" + i;
+            username.setAttribute("class", "Noprint");//设置样式属性 不打印
+            inputs.appendChild(username);
+            inputs.appendChild(document.createElement("br"));
+        }
+    }
+
+    /* 测试取值输入的扉页版权内容*/
+    function valuessxx() {
+        var inputs = document.getElementById("inputs");
+        var arrpage = new Array();
+        for (var i = 0; i < inputs.length; i++) {
+            arrpage[i] = inputs.elements[i].value;
+        }
+        return arrpage;
+    }
+
+    function shong(cc) {
+        var d = cc.split(".");//获取文本框值以点分隔转为字符数组，下标零为整数，1为小数
+        var s = parseInt(d[1]); //parseInt() 函数可解析一个字符串，并返回一个整数。
+        if (isNaN(s)) {//判断是否有小数，否则返回手数
+            return cc;
+        }
+        switch (s) {
+            case 5:
+                alert("松二");
+                s = 1;
+                break;
+            case 25:
+                alert("松四");
+                s = 1;
+                break;
+            case 75:
+                alert("松二+松四");
+                s = 2;
+                break;
+            default:
+                alert("请输入正确印张数！0." + s);
+                return;
+        }
+        s = (parseInt(d[0]) + s);//整手数 + 松 = 总印张
+        return s;
+    }
+
+
+    function prinn() {
+        var cbs = document.getElementById("cbs").value;
+        var bn = document.getElementById("bookname").value;
+        var cc = document.getElementById("cont").value;
+        var de = cc.split(".");//获取文本框值以点分隔转为字符数组，下标零为整数，1为小数
+        var ss = parseInt(de[1]); //parseInt() 函数可解析一个字符串，并返回一个整数。
+        var son = '';
+        var p16 = new Array(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16);// 16个P 顺序页数变量
+
+        /*
+        * 利用js正则表达式校验正数、负数、和小数
+        * */
+        if (checkRate("cont")) {
+            // alert("这是一个数字  " + cc + "手");
+            var arrpage = valuessxx();//获取要输入的文本，插入扉页版权
+            var len = arrpage.length;//插入页数
+            var inpu = document.getElementById("inputs");
+            removeElement(inpu);//清空,取得动态插入文本后。为了打印--删除不需要的文本框
+            var con = 1;
+
+            /* 取余数，判断松二，松四 返回总手数*/
+            cc = shong(cc);
+            for (i = 0; i < cc; i++) {
+                var t1 = document.createElement("table" + (i + 1));
+                // var tab= '<div STYLE="page-break-after: always;"></div>';
+                var tab = '<br/><br/><table border=5 ><tr>';
+                //只是为了松二松四变量标识
+                if (ss === 5 && i === (cc - 2)) {
+                    son = '松二';
+                } else if (ss === 25 && i === (cc - 2)) {
+                    son = '松四';
+                } else if (ss === 75 && i === (cc - 3)) {//松四 +
+                    son = '松四+';
+                } else if (ss === 75 && i === (cc - 2)) {//松二
+                    son = '松二+';
+                } else {
+                    son = '';
+                }
+                for (j = 0; j < 16; j++) {
+                    if (len > 0) {  //判断是否有要插入的扉页版权，如果有每手都要后移页码
+                        if (ss === 5 && i === (cc - 2)) {  //松二插入倒数第二位置 xxoo
+                            tab += "<td>" + "<h2>P" + (p16[array16k2[j] - 1] - len) + "</h2></td>";
+                        } else if (ss === 25 && i === (cc - 2)) {//松四
+                            tab += "<td>" + "<h2>P" + (p16[arrayk4[j] - 1] - len) + "</h2></td>";
+                        } else if (ss === 75 && i === (cc - 3)) {//松四 +
+                            tab += "<td>" + "<h2>P" + (p16[arrayk4[j] - 1] - len) + "</h2></td>";
+                        } else if (ss === 75 && i === (cc - 2)) {//松二
+                            tab += "<td>" + "<h2>P" + (p16[array16k2[j] - 1] - len) + "</h2></td>";
+                        } else {
+                            /*
+                            * 条件插入扉页版权，扉页版权数组插入，使用页码数组下标
+                            * */
+                            if ((p16[array16[j] - 1]) < len + 1) {
+                                tab += "<td>" + "<h2>P" + arrpage[(p16[array16[j] - 1] - 1)] + "</h2></td>";
+                            } else {
+                                // 页码后移-插入页数
+                                tab += "<td>" + "<h2>P" + (p16[array16[j] - 1] - len) + "</h2></td>";
+                            }
+                        }
+
+                    } else {
+                        if (ss === 5 && i === (cc - 2)) {  //松二插入倒数第二位置 xxoo
+                            tab += "<td>" + "<h2>P" + (p16[array16k2[j] - 1]) + "</h2></td>";
+                        } else if (ss === 25 && i === (cc - 2)) {//松四
+                            tab += "<td>" + "<h2>P" + (p16[arrayk4[j] - 1]) + "</h2></td>";
+                        } else if (ss === 75 && i === (cc - 3)) {//松四 +
+                            tab += "<td>" + "<h2>P" + (p16[arrayk4[j] - 1]) + "</h2></td>";
+                        } else if (ss === 75 && i === (cc - 2)) {//松二
+                            tab += "<td>" + "<h2>P" + (p16[array16k2[j] - 1]) + "</h2></td>";
+                        } else {
+                            tab += "<td><h2>" + "P" + p16[array16[j] - 1] + "</h2></td>";
+                        }
+                    }
+                    /* 换行 两个表格 */
+                    if (j === 3) {
+                        tab += '</tr>';
+                    }
+                    if (j === 7) {
+                        tab += '</tr></table>';//正面表格结束
+                        tab += '<br/><h1>' + cbs + '-' + bn + ' 第' + (i + 1) + '手 正面 ' + son + '</h1>';
+                        tab += '<div STYLE="page-break-after: always;"></div>';//此标签之后打印换页
+                        tab += '<br/><br/><table  border=5 ><tr>';//反面表格开始
+                    }
+                    if (j === 11) {
+                        tab += '</tr>';
+                    }
+                    if (j === 15) {
+                        tab += '</tr>';
+                    }
+                    con++;//自增长计数
+                }
+                //自增 正常 + 16P 对应的松二 + 8，松四 + 4 单独循环为了避免取值时已经已增量
+                for (k = 0; k < 16; k++) {
+                    if (ss === 5 && i === (cc - 2)) {
+                        p16[k] = p16[k] + 8;
+                        son = '松二';
+                    } else if (ss === 25 && i === (cc - 2)) {
+                        p16[k] = p16[k] + 4;
+                        son = '松四';
+                    } else if (ss === 75 && i === (cc - 3)) {//松四 +
+                        p16[k] = p16[k] + 4;
+                        son = '松四 +';
+                    } else if (ss === 75 && i === (cc - 2)) {//松二
+                        p16[k] = p16[k] + 8;
+                        son = '松二 +';
+                    } else {
+                        p16[k] = p16[k] + 16;
+                    }
+
+                }
+                tab += '</table>';
+                tab += '<br/><h1>' + cbs + '-' + bn + ' 第' + (i + 1) + '手 反面 ' + son + '</h1><br/><br/>';
+                t1.innerHTML = tab;//表格加入div
+                document.getElementById("inputs").appendChild(t1);
+            }
+            arrh = "";
+            len = 0;
+        } else {
+            alert("请输入正确数字！ " + cc);//截取小数点后面的整数作判断
+        }
+        document.getElementById("cont").value = "";//清空输入
+        document.getElementById("js_add_num").value = "";
+    }
+
+    /*
+    *     /^(\-|\+)?\d+(\.\d+)?$/  校验正数、负数、和小数
+    *        \-|  去掉这个。负数
+    * */
+    function checkRate(input) {
+        var re = /^(\+)?\d+(\.\d+)?$/; //判断字符串 js正则表达式
+        var nubmer = document.getElementById(input).value;
+        if (!re.test(nubmer)) {
+            alert("请输入数字");
+            document.getElementById(input).value = "";
+            return false;
+        } else
+            return true;
+    }
+
+    function che() {
+
+        // var tbs = document.getElementsByTagName("table");//获取所有表格类型
+        var inp = document.getElementById("inputs");// id= inputs表单
+        var ttbs = inp.getElementsByTagName("table");// inputs表单中所有表格
+        var conut = 1;
+        for (var i = 0; i < ttbs.length; i++) {
+            // alert("样式到这");
+            // ttbs[i].rows[0].vAlign = "top";//ok 每一个表格的第一行文字到顶
+            // ttbs[i].rows[0].align = "right";//每一个表格的第一行文字右对齐
+            //ttbs[i].rows[0].style.backgroundColor = "yellow";//原本无背景色则有效
+            // ttbs[i].rows[0].setAttribute("class", "ttd");
+            ttbs[i].rows[0].style.transform = "rotate(180deg)"; //  ???
+            ttbs[i].rows[0].style.verticalAlign = "bottom";//第一行已经反转，
+            ttbs[i].rows[1].style.verticalAlign = "bottom";//文本底端对齐,每个表格的第二行
+
+            for (var j = 0; j < ttbs[i].rows.length; j++) {//遍历每个表格的每一行
+                for (var k = 0; k < ttbs[i].rows[j].cells.length; k++) {//每一行的所有列
+                    if ((conut % 2) == 0) {//偶数页码文字右对齐
+                        ttbs[i].rows[j].cells[k].align = "right";
+                    }
+                    conut++;
+                }
+            }
+        }
+		//ttbs.
+		
+		//inp.style.transform = "rotate(180deg)";//
+    }
+    </script>
+</head>
+<body>
+<div align="center" class="Noprint">
+    <img src="#" width="28%"/>
+    <img src="#" width="28%"/>
+    <img src="#" width="28%"/>
+
+    <br><br>出版社名称:<input type="text" id="cbs" size="28">书 名:<input type="text" id="bookname" size="28">
+    动态插入页面扉页版权等（输数字）：<input type="text" id="js_add_num" name="js_add_num" size="4" onkeyup="addtextarea(this.value)"/>
+    <br><br>
+
+    输入印张数自动拼版(16开松二松四)：
+    <input type="text" id="cont" name="cont" size="8" value="">
+    <input type="button" value="确定" onclick="prinn()">
+    <input type="button" value="修改样式" onclick="che()">
+    <input type="button" value="del" onclick="abc()">
+</div>
+
+<div align="center">
+    <form id="inputs" action="" method="post">
+    </form>
+</div>
+<div align="center" class="Noprint">
+    <br/>
+    <hr/>
+   
+</div>
+</body>
+</html>
