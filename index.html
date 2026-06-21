@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>bai1bai</title>
+    <title>bai1bai | 主页</title>
     <style>
         * {
             margin: 0;
@@ -11,19 +11,74 @@
             box-sizing: border-box;
         }
 
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
-            color: #fff;
-            padding: 2rem;
+        html {
+            scroll-behavior: smooth;
         }
 
-        .card {
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+            color: #fff;
+            min-height: 100vh;
+        }
+
+        /* ─── Navigation ─── */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            padding: 1rem 2rem;
+            background: rgba(15, 12, 41, 0.8);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        nav a {
+            color: rgba(255, 255, 255, 0.6);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: #a78bfa;
+        }
+
+        /* ─── Sections ─── */
+        section {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 5rem 2rem;
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 3rem;
+            text-align: center;
+            background: linear-gradient(135deg, #667eea, #a78bfa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* ─── Hero ─── */
+        #home {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding-top: 4rem;
+        }
+
+        .hero-card {
             background: rgba(255, 255, 255, 0.05);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
@@ -37,7 +92,7 @@
             transition: transform 0.3s ease;
         }
 
-        .card:hover {
+        .hero-card:hover {
             transform: translateY(-4px);
         }
 
@@ -55,7 +110,7 @@
             box-shadow: 0 8px 32px rgba(102, 126, 234, 0.4);
         }
 
-        h1 {
+        .hero-card h1 {
             font-size: 2rem;
             font-weight: 700;
             margin-bottom: 0.5rem;
@@ -78,14 +133,14 @@
             margin-bottom: 2.5rem;
         }
 
-        .links {
+        .hero-links {
             display: flex;
             gap: 1rem;
             justify-content: center;
             flex-wrap: wrap;
         }
 
-        .links a {
+        .hero-links a {
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
@@ -100,43 +155,291 @@
             background: rgba(255, 255, 255, 0.05);
         }
 
-        .links a:hover {
+        .hero-links a:hover {
             background: rgba(255, 255, 255, 0.15);
             border-color: rgba(255, 255, 255, 0.3);
             transform: translateY(-2px);
         }
 
-        .footer {
-            margin-top: 2rem;
-            font-size: 0.8rem;
-            color: rgba(255, 255, 255, 0.3);
+        /* ─── About ─── */
+        #about {
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
         }
 
-        @media (max-width: 480px) {
-            .card {
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        .about-item {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 1.5rem;
+        }
+
+        .about-item h3 {
+            font-size: 1rem;
+            color: #a78bfa;
+            margin-bottom: 0.5rem;
+        }
+
+        .about-item p {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.65);
+            line-height: 1.6;
+        }
+
+        /* ─── Skills ─── */
+        #skills {
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .skills-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        .skill-tag {
+            padding: 0.6rem 1.4rem;
+            border-radius: 100px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            background: rgba(255, 255, 255, 0.04);
+            color: rgba(255, 255, 255, 0.8);
+            transition: all 0.3s;
+        }
+
+        .skill-tag:hover {
+            background: rgba(102, 126, 234, 0.2);
+            border-color: rgba(102, 126, 234, 0.4);
+            transform: translateY(-2px);
+        }
+
+        /* ─── Projects ─── */
+        #projects {
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .project-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        .project-card {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 1.5rem;
+            transition: all 0.3s;
+        }
+
+        .project-card:hover {
+            background: rgba(255, 255, 255, 0.08);
+            transform: translateY(-3px);
+        }
+
+        .project-card h3 {
+            font-size: 1.05rem;
+            margin-bottom: 0.4rem;
+        }
+
+        .project-card p {
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.55);
+            line-height: 1.5;
+        }
+
+        .project-tags {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 0.8rem;
+            flex-wrap: wrap;
+        }
+
+        .project-tags span {
+            font-size: 0.7rem;
+            padding: 0.2rem 0.6rem;
+            border-radius: 6px;
+            background: rgba(102, 126, 234, 0.15);
+            color: #a78bfa;
+        }
+
+        /* ─── Contact ─── */
+        #contact {
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            text-align: center;
+        }
+
+        .contact-links {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .contact-links a {
+            color: rgba(255, 255, 255, 0.65);
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: color 0.3s;
+        }
+
+        .contact-links a:hover {
+            color: #a78bfa;
+        }
+
+        /* ─── Footer ─── */
+        footer {
+            text-align: center;
+            padding: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.25);
+        }
+
+        /* ─── Responsive ─── */
+        @media (max-width: 640px) {
+            .about-grid,
+            .project-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-card {
                 padding: 2.5rem 1.5rem;
             }
-            h1 {
+
+            .hero-card h1 {
                 font-size: 1.5rem;
+            }
+
+            nav {
+                gap: 1rem;
+                font-size: 0.8rem;
             }
         }
     </style>
 </head>
 <body>
-    <div class="card">
-        <div class="avatar">B</div>
-        <h1>bai1bai</h1>
-        <p class="subtitle">Developer &amp; Creator</p>
-        <p class="bio">
-            欢迎来到我的主页。这里记录着我的代码、项目和想法。
-            持续学习，保持好奇。
-        </p>
-        <div class="links">
-            <a href="https://github.com/bai1bai" target="_blank" rel="noopener">GitHub</a>
-            <a href="#" onclick="alert('coming soon')">Blog</a>
-            <a href="mailto:bai1bai@example.com">Email</a>
+
+    <!-- Nav -->
+    <nav>
+        <a href="#home">首页</a>
+        <a href="#about">关于</a>
+        <a href="#skills">技能</a>
+        <a href="#projects">项目</a>
+        <a href="#contact">联系</a>
+    </nav>
+
+    <!-- Hero -->
+    <section id="home">
+        <div class="hero-card">
+            <div class="avatar">B</div>
+            <h1>bai1bai</h1>
+            <p class="subtitle">Developer &amp; Creator</p>
+            <p class="bio">
+                欢迎来到我的主页。这里记录着我的代码、项目和想法。
+                持续学习，保持好奇。
+            </p>
+            <div class="hero-links">
+                <a href="https://github.com/bai1bai" target="_blank" rel="noopener">GitHub</a>
+                <a href="blog/" target="_blank" rel="noopener">Blog</a>
+                <a href="mailto:bai1bai@example.com">Email</a>
+            </div>
         </div>
-    </div>
-    <div class="footer">© 2026 bai1bai</div>
+    </section>
+
+    <!-- About -->
+    <section id="about">
+        <h2 class="section-title">关于我</h2>
+        <div class="about-grid">
+            <div class="about-item">
+                <h3>📌 简介</h3>
+                <p>写一小段个人介绍放在这里——你的背景、兴趣、方向等。</p>
+            </div>
+            <div class="about-item">
+                <h3>💼 经历</h3>
+                <p>简单描述你的工作或学习经历。</p>
+            </div>
+            <div class="about-item">
+                <h3>🎯 目标</h3>
+                <p>目前在学习或专注的方向。</p>
+            </div>
+            <div class="about-item">
+                <h3>⚡ 兴趣</h3>
+                <p>编程之外你喜欢什么？</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills -->
+    <section id="skills">
+        <h2 class="section-title">技能</h2>
+        <div class="skills-list">
+            <span class="skill-tag">技能 A</span>
+            <span class="skill-tag">技能 B</span>
+            <span class="skill-tag">技能 C</span>
+            <span class="skill-tag">技能 D</span>
+            <span class="skill-tag">技能 E</span>
+            <span class="skill-tag">技能 F</span>
+        </div>
+    </section>
+
+    <!-- Projects -->
+    <section id="projects">
+        <h2 class="section-title">项目</h2>
+        <div class="project-grid">
+            <div class="project-card">
+                <h3>项目一</h3>
+                <p>项目的简短描述，用一两句话说明。</p>
+                <div class="project-tags">
+                    <span>标签1</span>
+                    <span>标签2</span>
+                </div>
+            </div>
+            <div class="project-card">
+                <h3>项目二</h3>
+                <p>项目的简短描述，用一两句话说明。</p>
+                <div class="project-tags">
+                    <span>标签1</span>
+                    <span>标签2</span>
+                </div>
+            </div>
+            <div class="project-card">
+                <h3>项目三</h3>
+                <p>项目的简短描述，用一两句话说明。</p>
+                <div class="project-tags">
+                    <span>标签1</span>
+                    <span>标签2</span>
+                </div>
+            </div>
+            <div class="project-card">
+                <h3>项目四</h3>
+                <p>项目的简短描述，用一两句话说明。</p>
+                <div class="project-tags">
+                    <span>标签1</span>
+                    <span>标签2</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact">
+        <h2 class="section-title">联系我</h2>
+        <div class="contact-links">
+            <a href="mailto:bai1bai@example.com">📧 bai1bai@example.com</a>
+            <a href="https://github.com/bai1bai" target="_blank" rel="noopener">🐙 GitHub</a>
+            <a href="#">🔗 其他链接</a>
+        </div>
+    </section>
+
+    <footer>© 2026 bai1bai</footer>
+
 </body>
 </html>
